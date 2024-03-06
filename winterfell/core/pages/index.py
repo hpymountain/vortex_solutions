@@ -12,7 +12,7 @@ async def get_api():
 @ui.page('/show-services-trackings')
 def show_users():
     ui.label('Show services trackings!').classes('text-2xl m-2')
-    accounts = app.db.get_list('accounts', page=1, perPage=20, filter='', sort='created', cache=False)
+    accounts = app.db.get_list('test_accounts', page=1, perPage=20, filter='', sort='created', cache=False)
     for account in accounts.items:
         with ux.ul().classes("divide-y divide-gray-100"):
             with ux.li().classes("flex justify-between gap-x-6 py-5"):
@@ -28,7 +28,7 @@ def show_users():
 @ui.page('/show-users')
 def show_users():
     ui.label('Show Accounts!').classes('text-2xl m-2')
-    accounts = app.db.get_list('accounts', page=1, perPage=20, filter='', sort='created', cache=False)
+    accounts = app.db.get_list('test_accounts', page=1, perPage=20, filter='', sort='created', cache=False)
     for account in accounts.items:
         with ux.ul().classes("divide-y divide-gray-100"):
             with ux.li().classes("flex justify-between gap-x-6 py-5"):
@@ -37,19 +37,27 @@ def show_users():
                         ux.p(account.last_name).classes("text-sm font-semibold leading-6 text-gray-900")
                         ux.p(account.first_name).classes("mt-1 truncate text-xs leading-5 text-gray-500")
 
-@ui.page('/show-me')
+
+@ui.page('/show-justus')
+def show_justus():
+    ui.label('Show Accounts!').classes('text-2xl m-2')
+    # accounts = app.db.get_list('accounts', page=1, perPage=20, filter='', sort='created', cache=False)
+    account = app.db.get_one('test_accounts', 'occ8e7xxas1i920')
+
+    with ux.ul().classes("divide-y divide-gray-100"):
+        with ux.li().classes("flex justify-between gap-x-6 py-5"):
+            with ux.div().classes("flex min-w-0 gap-x-4"):
+                with ux.div().classes("min-w-0 flex-auto"):
+                    ux.p(account.last_name).classes("text-sm font-semibold leading-6 text-gray-900")
+                    ux.p(account.first_name).classes("mt-1 truncate text-xs leading-5 text-gray-500")
+
+@ui.page('/test')
 def show_users():
     ui.label('Show Accounts!').classes('text-2xl m-2')
-    accounts = app.db.get_list('accounts', page=1, perPage=20, filter='', sort='created', cache=False)
-    for account in accounts.items:
-        with ux.ul().classes("divide-y divide-gray-100"):
-            with ux.li().classes("flex justify-between gap-x-6 py-5"):
-                with ux.div().classes("flex min-w-0 gap-x-4"):
-                    with ux.div().classes("min-w-0 flex-auto"):
-                        ux.p(account.last_name).classes("text-sm font-semibold leading-6 text-gray-900")
-                        ux.p(account.first_name).classes("mt-1 truncate text-xs leading-5 text-gray-500")
+
 
 def default():
     ux.h1('This is the homepage!').classes('text-2xl m-2')
     ui.link('Übersicht der User', '/show-users')
     ui.link('Übersicht Tracked Services', '/show-services-trackings')
+    ui.link('Übersicht Justus', '/show-justus')
