@@ -4,9 +4,9 @@ from winterfell.core import consts
 import sys
 import os
 
-os.chdir("C:\\workspace\\Software_Development_Project\\GIT\\tokeo\\winterfell")
-sys.path.insert(0, 'C:\\workspace\\Software_Development_Project\\GIT\\tokeo\\winterfell')
-from data_classes.user_class import User, read_user_from_db, read_user_list_from_db
+#os.chdir("C:\\workspace\\Software_Development_Project\\GIT\\tokeo\\winterfell")
+#sys.path.insert(0, 'C:\\workspace\\Software_Development_Project\\GIT\\tokeo\\winterfell')
+#from data_classes.user_class import User, read_user_from_db, read_user_list_from_db
 
 ui = app.nicegui.ui
 ux = app.nicegui.ux
@@ -31,6 +31,7 @@ def show_users():
                         with ux.div().classes("min-w-0 flex-auto"):
                             ux.p(service.service).classes("text-sm font-semibold leading-6 text-gray-900")
                             ux.p(f'{service.duration} min').classes("mt-1 truncate text-xs leading-5 text-gray-500")
+
 
 
 @ui.page('/show-justus')
@@ -78,3 +79,4 @@ def default():
     ui.link('Übersicht Tracked Services', '/show-services-trackings')
     ui.link('Übersicht Justus', '/show-justus')
     ui.link('Erstelle Rechnungen', '/show-customers-and-contracts')
+

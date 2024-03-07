@@ -49,5 +49,5 @@ def page_invoice(contract_id):
     ux.p('---')
     ux.p('Session Verlauf')
     for s in sessions.items:
-        ux.p(f'{s.service_type}, {s.created}, {s.duration}, {s.ran_type}, {s.signal_quality}, {s.max_throughput}, {s.data_volume}')
+        ux.p(f'{s.service_type}, {s.created}, {s.duration}, {s.ran_type}, {s.signal_quality}, {s.cur_throughput}, {s.data_volume}')
 
