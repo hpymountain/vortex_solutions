@@ -3,24 +3,28 @@ migrate((db) => {
   const dao = new Dao(db)
   const collection = dao.findCollectionByNameOrId("dtf4akjndbfwoev")
 
-  collection.options = {
-    "query": "SELECT\n  a.id,\n  a.first_name,\n  a.last_name,\n  (\n    SELECT SUM(services_tracked.duration)\n    FROM services_tracked\n    WHERE services_tracked.account = a.id\n    AND services_tracked.service = 'call'\n  ) as call_duration_sum,\n  (\n    SELECT SUM(services_tracked.duration)\n    FROM services_tracked\n    WHERE services_tracked.account = a.id\n    AND services_tracked.service != 'call'\n  ) as data_duration_sum\nFROM\n  accounts a\n"
-  }
+  collection.name = "sum_sessions_per_contract"
 
   // remove
-  collection.schema.removeField("ifnh7xtx")
+  collection.schema.removeField("icnlyxp8")
 
   // remove
-  collection.schema.removeField("djexeksa")
+  collection.schema.removeField("tiz3dfwx")
 
   // remove
-  collection.schema.removeField("1haawwad")
+  collection.schema.removeField("sodwdb34")
+
+  // remove
+  collection.schema.removeField("nd4wh2tj")
+
+  // remove
+  collection.schema.removeField("kleggc9s")
 
   // add
   collection.schema.addField(new SchemaField({
     "system": false,
-    "id": "f8oxccyi",
-    "name": "first_name",
+    "id": "0zhghsuy",
+    "name": "forename",
     "type": "text",
     "required": false,
     "presentable": false,
@@ -35,8 +39,8 @@ migrate((db) => {
   // add
   collection.schema.addField(new SchemaField({
     "system": false,
-    "id": "nql04cuy",
-    "name": "last_name",
+    "id": "afp4pmto",
+    "name": "surname",
     "type": "text",
     "required": false,
     "presentable": false,
@@ -51,7 +55,7 @@ migrate((db) => {
   // add
   collection.schema.addField(new SchemaField({
     "system": false,
-    "id": "h4dfgtdc",
+    "id": "nrej0jx9",
     "name": "call_duration_sum",
     "type": "json",
     "required": false,
@@ -65,8 +69,22 @@ migrate((db) => {
   // add
   collection.schema.addField(new SchemaField({
     "system": false,
-    "id": "sibdifi5",
+    "id": "xqnwdd2a",
     "name": "data_duration_sum",
+    "type": "json",
+    "required": false,
+    "presentable": false,
+    "unique": false,
+    "options": {
+      "maxSize": 1
+    }
+  }))
+
+  // add
+  collection.schema.addField(new SchemaField({
+    "system": false,
+    "id": "ejihj9yv",
+    "name": "data_volume_sum",
     "type": "json",
     "required": false,
     "presentable": false,
@@ -81,15 +99,13 @@ migrate((db) => {
   const dao = new Dao(db)
   const collection = dao.findCollectionByNameOrId("dtf4akjndbfwoev")
 
-  collection.options = {
-    "query": "SELECT\n  a.id,\n  a.first_name,\n  a.last_name,\n  (\n    SELECT SUM(services_tracked.duration)\n    FROM services_tracked\n    WHERE services_tracked.account = a.id\n    AND services_tracked.service = 'call'\n  ) as call_duration_sum\nFROM\n  accounts a\n"
-  }
+  collection.name = "sessions_per_contract"
 
   // add
   collection.schema.addField(new SchemaField({
     "system": false,
-    "id": "ifnh7xtx",
-    "name": "first_name",
+    "id": "icnlyxp8",
+    "name": "forename",
     "type": "text",
     "required": false,
     "presentable": false,
@@ -104,8 +120,8 @@ migrate((db) => {
   // add
   collection.schema.addField(new SchemaField({
     "system": false,
-    "id": "djexeksa",
-    "name": "last_name",
+    "id": "tiz3dfwx",
+    "name": "surname",
     "type": "text",
     "required": false,
     "presentable": false,
@@ -120,7 +136,7 @@ migrate((db) => {
   // add
   collection.schema.addField(new SchemaField({
     "system": false,
-    "id": "1haawwad",
+    "id": "sodwdb34",
     "name": "call_duration_sum",
     "type": "json",
     "required": false,
@@ -131,17 +147,48 @@ migrate((db) => {
     }
   }))
 
-  // remove
-  collection.schema.removeField("f8oxccyi")
+  // add
+  collection.schema.addField(new SchemaField({
+    "system": false,
+    "id": "nd4wh2tj",
+    "name": "data_duration_sum",
+    "type": "json",
+    "required": false,
+    "presentable": false,
+    "unique": false,
+    "options": {
+      "maxSize": 1
+    }
+  }))
+
+  // add
+  collection.schema.addField(new SchemaField({
+    "system": false,
+    "id": "kleggc9s",
+    "name": "data_volume_sum",
+    "type": "json",
+    "required": false,
+    "presentable": false,
+    "unique": false,
+    "options": {
+      "maxSize": 1
+    }
+  }))
 
   // remove
-  collection.schema.removeField("nql04cuy")
+  collection.schema.removeField("0zhghsuy")
 
   // remove
-  collection.schema.removeField("h4dfgtdc")
+  collection.schema.removeField("afp4pmto")
 
   // remove
-  collection.schema.removeField("sibdifi5")
+  collection.schema.removeField("nrej0jx9")
+
+  // remove
+  collection.schema.removeField("xqnwdd2a")
+
+  // remove
+  collection.schema.removeField("ejihj9yv")
 
   return dao.saveCollection(collection)
 })
