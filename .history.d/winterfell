@@ -1,0 +1,8 @@
+git status
+git add pockt*
+git add pocket*
+git status
+git commit -m "setup database"
+git push
+git status
+git add .history.d
