@@ -12,17 +12,19 @@ class Contract(DatabaseObject):
         self.data_volume = ""
         self.imsi = ""
         self.terminal_type = ""
+        self.additional_data_booked = ""
     
     def read_from_query_object(self, query_object):
-        self.ID = query_object
-        self.customer = query_object
-        self.subscription = query_object
-        self.basic_fee = query_object
-        self.minutes_included = query_object
-        self.price_per_extra_minute = query_object
-        self.data_volume = query_object
-        self.imsi = query_object
-        self.terminal_type = query_object
+        self.ID = query_object.id
+        self.customer = query_object.customer
+        self.subscription = query_object.subscription
+        self.basic_fee = query_object.basic_fee
+        self.minutes_included = query_object.minutes_included
+        self.price_per_extra_minute = query_object.price_per_extra_minute
+        self.data_volume = query_object.data_volume
+        self.imsi = query_object.imsi
+        self.terminal_type = query_object.terminal_type
+        self.additional_data_booked = query_object.additional_data_booked
         return self
     
     def read_in_db(self, key):
