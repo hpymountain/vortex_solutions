@@ -1,0 +1,20 @@
+git status
+git add pockt*
+git add pocket*
+git status
+git commit -m "setup database"
+git push
+git status
+git add .history.d
+git commit -m "add terminal command history"
+git status
+git add .hist*
+git status
+git commit -m "add terminal command history"
+git add winterfell/core/consts.py
+git status
+git commit -m "add: consts for logic"
+git add winterfell/core/pages/
+git status
+git commit -m "add: new page invoice"
+git add .
