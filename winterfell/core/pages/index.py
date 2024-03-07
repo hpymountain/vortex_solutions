@@ -26,6 +26,7 @@ def show_users():
                             ux.p(f'{service.duration} min').classes("mt-1 truncate text-xs leading-5 text-gray-500")
 
 
+
 @ui.page('/show-justus')
 def show_justus():
     ui.label('Show Accounts!').classes('text-2xl m-2')
@@ -71,3 +72,4 @@ def default():
     ui.link('Übersicht Tracked Services', '/show-services-trackings')
     ui.link('Übersicht Justus', '/show-justus')
     ui.link('Erstelle Rechnungen', '/show-customers-and-contracts')
+
