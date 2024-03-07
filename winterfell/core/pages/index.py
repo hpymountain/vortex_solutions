@@ -1,5 +1,12 @@
 from tokeo.ext.appshare import app
 
+import sys
+import os
+
+os.chdir("C:\\workspace\\Software_Development_Project\\GIT\\tokeo\\winterfell")
+sys.path.insert(0, 'C:\\workspace\\Software_Development_Project\\GIT\\tokeo\\winterfell')
+from data_classes.user_class import read_user_from_db, read_user_list_from_db
+
 ui = app.nicegui.ui
 ux = app.nicegui.ux
 
@@ -12,7 +19,7 @@ async def get_api():
 @ui.page('/show-services-trackings')
 def show_users():
     ui.label('Show services trackings!').classes('text-2xl m-2')
-    accounts = app.db.get_list('accounts', page=1, perPage=20, filter='', sort='created', cache=False)
+    accounts = app.db.get_list('test_accounts', page=1, perPage=20, filter='', sort='created', cache=False)
     for account in accounts.items:
         with ux.ul().classes("divide-y divide-gray-100"):
             with ux.li().classes("flex justify-between gap-x-6 py-5"):
