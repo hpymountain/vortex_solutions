@@ -6,6 +6,10 @@ class DatabaseObject(ABC):
         return self
     
     @abstractmethod
+    def create_in_db(self):
+        return self
+    
+    @abstractmethod
     def read_in_db(self, key):
         return self
     
