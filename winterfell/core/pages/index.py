@@ -1,6 +1,13 @@
 from tokeo.ext.appshare import app
 from winterfell.core import consts
 
+import sys
+import os
+
+os.chdir("C:\\workspace\\Software_Development_Project\\GIT\\tokeo\\winterfell")
+sys.path.insert(0, 'C:\\workspace\\Software_Development_Project\\GIT\\tokeo\\winterfell')
+from data_classes.user_class import User, read_user_from_db, read_user_list_from_db
+
 ui = app.nicegui.ui
 ux = app.nicegui.ux
 

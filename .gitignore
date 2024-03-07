@@ -107,3 +107,12 @@ config/*.local.yaml
 .mypy_cache/
 
 .DS_Store
+
+
+
+
+*.bat
+pocketbase.exe
+pocketbase
+*.db-shm
+*.db-wal
