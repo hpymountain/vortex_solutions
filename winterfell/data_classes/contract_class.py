@@ -71,11 +71,11 @@ class Contract(DatabaseObject):
         return self
 
 def get_all_contracts_in_db(filter=None) -> dict[str, Contract]:
-    ret_dict: dict[str, Contract] = []
+    ret_dict: dict[str, Contract] = {}
     if filter is not None:
-        user_query_list_object = app.db.get_list('customers', filter=filter)
+        user_query_list_object = app.db.get_list('contracts', filter=filter)
     else:        
-        user_query_list_object = app.db.get_list('customers')
+        user_query_list_object = app.db.get_list('contracts')
     
     for contract in user_query_list_object.items:
         contract = Contract().read_from_query_object(contract)

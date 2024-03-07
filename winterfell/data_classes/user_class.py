@@ -28,7 +28,7 @@ class User(DatabaseObject):
     
     def fetch_all_contracts(self):
         all_contracts = get_all_contracts_in_db()
-        for id, contract in all_contracts:
+        for id, contract in all_contracts.items():
             if contract.customer == self.ID:
                 self.contracts.update({id: contract})
         return self
