@@ -77,3 +77,4 @@ def default():
     ui.link('Übersicht der User', '/show-users')
     ui.link('Übersicht Tracked Services', '/show-services-trackings')
     ui.link('Übersicht Justus', '/show-justus')
+    ui.link('Erstelle Rechnungen', '/show-customers-and-contracts')
