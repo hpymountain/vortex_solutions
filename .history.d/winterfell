@@ -6,3 +6,6 @@ git commit -m "setup database"
 git push
 git status
 git add .history.d
+git commit -m "add terminal command history"
+git status
+git add .hist*
