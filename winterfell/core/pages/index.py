@@ -1,12 +1,8 @@
 from tokeo.ext.appshare import app
 from winterfell.core import consts
+from winterfell.data_classes.user_class import User, read_user_list_from_db
+from winterfell.data_classes.contract_class import Contract, get_all_contracts_in_db
 
-import sys
-import os
-
-#os.chdir("C:\\workspace\\Software_Development_Project\\GIT\\tokeo\\winterfell")
-#sys.path.insert(0, 'C:\\workspace\\Software_Development_Project\\GIT\\tokeo\\winterfell')
-#from data_classes.user_class import User, read_user_from_db, read_user_list_from_db
 
 ui = app.nicegui.ui
 ux = app.nicegui.ux
@@ -15,6 +11,139 @@ ux = app.nicegui.ux
 @app.nicegui.fastapi_app.get('/api')
 async def get_api():
     return {'msg': 'json api result'}
+
+
+
+
+def getRows(user):
+    if(user is None):
+        return {}
+    rows = [
+        {'forename': user.forename, 'surname': user.surname, 'address': user.address, 'zipcode': user.zipcode, 'city': user.city, 'email': user.email}
+    ]
+    return rows
+
+@ui.page('/show-users')
+def show_users():
+    ui.label('Show Accounts!').classes('text-2xl m-2')
+    accountObjects: dict[str, User] = read_user_list_from_db()
+
+    accounts = list()
+    for account in accountObjects.keys():
+        accounts.append(account)
+
+    columns = [
+        {'name': 'forename', 'label': 'forename', 'field': 'forename', 'required': True, 'align': 'left'},
+        {'name': 'surname', 'label': 'surname', 'field': 'surname', 'sortable': True},
+        {'name': 'address', 'label': 'address', 'field': 'address', 'sortable': True},
+        {'name': 'zipcode', 'label': 'zipcode', 'field': 'zipcode', 'sortable': True},
+        {'name': 'city', 'label': 'city', 'field': 'city', 'sortable': True},
+        {'name': 'email', 'label': 'email', 'field': 'email', 'sortable': True},
+    ]
+    
+    row = []
+
+    with ui.splitter() as splitter:
+        with splitter.before:
+            with ui.row():
+                user_selection = ui.select(options=accounts, with_input=True)
+                ok_button = ui.button('OK')
+            ui.button('Delete User', on_click=lambda: accountObjects.get(user_selection.value).delete_in_db())        
+            ui.button('Print Invoice', on_click=lambda: ui.navigate.to(f'/invoice/{user_selection.value}', new_tab=True))
+            ui.button('Edit User', on_click=lambda: ui.navigate.to('/edit-user', new_tab=True))
+            ui.button('Delete Contract', on_click=lambda: ui.navigate.to('/delete-contract', new_tab=True))
+            ui.button('Add Contract', on_click=lambda: ui.navigate.to('/add-contract', new_tab=True))
+            ui.button('Add User', on_click=lambda: ui.navigate.to('/add-user', new_tab=True))
+
+        with splitter.after:
+            user_info_table = ui.table(columns=columns, rows=row, row_key='name')
+            def updateRow():
+                row = getRows(accountObjects.get(user_selection.value))
+                user_info_table.rows = row
+                user_info_table.update()
+            ok_button.on('click', updateRow)
+
+@ui.page('/edit-user')
+def edit_user_layout():
+    ui.label('Edit an User!').classes('text-2xl m-2')
+
+    accountObjects: dict[str, User] = read_user_list_from_db()
+
+    accounts = list()
+    for account in accountObjects.keys():
+        accounts.append(account)
+
+    user_selection = ui.select(options=accounts, with_input=True)
+
+    surname = ui.input('Surname')
+    forename = ui.input('Forename')
+    address = ui.input('Address')
+    zipcode = ui.input('Zipcode')
+    city = ui.input('City')
+    email = ui.input('Email')
+
+    def edit_user():
+        selected_user = accountObjects.get(user_selection.value)
+        selected_user.surname = surname.value if surname.value != "" else selected_user.surname
+        selected_user.forename = forename.value if forename.value != "" else selected_user.forename
+        selected_user.address = address.value if address.value != "" else selected_user.address
+        selected_user.zipcode = zipcode.value if zipcode.value != "" else selected_user.zipcode
+        selected_user.city = city.value if city.value != "" else selected_user.city
+        selected_user.email = email.value if email.value != "" else selected_user.email
+        selected_user.update_in_db()
+
+    ui.button('OK', on_click = edit_user)
+
+@ui.page('/add-user')
+def add_user_layout():
+    ui.label('Add an User!').classes('text-2xl m-2')
+    surname = ui.input('Surname')
+    forename = ui.input('Forename')
+    address = ui.input('Address')
+    zipcode = ui.input('Zipcode')
+    city = ui.input('City')
+    email = ui.input('Email')
+
+    user = User()
+    def add_user():
+        user.surname = surname.value
+        user.forename = forename.value
+        user.address = address.value
+        user.zipcode = zipcode.value
+        user.city = city.value
+        user.email = email.value
+        user.create_in_db()
+
+    ui.button('OK', on_click = add_user)
+
+@ui.page('/delete-contract')
+def delete_contract():
+    ui.label('Delete a contract!').classes('text-2xl m-2')
+
+    accountObjects: dict[str, User] = read_user_list_from_db()
+    contractObjects: dict[str, Contract] = read_user_list_from_db()
+
+    accounts = list()
+    for account in accountObjects.keys():
+        accounts.append(account)
+
+    user_selection = ui.select(options=accounts, with_input=True)
+
+    def delete_contract(object):
+        selected_contract = contractObjects.get(object)
+        selected_contract.delete_in_db()
+
+    def generateUserContracts():
+        selected_user = accountObjects.get(user_selection.value)
+        contractObjects = selected_user.contracts
+        user_contracts = list()
+        for contract in contractObjects.keys():
+            user_contracts.append(contract)
+        contract_selection = ui.select(options=user_contracts, with_input=True)
+
+        ui.button('OK', on_click = delete_contract(contract_selection))
+
+    ui.button('Submit User', on_click = generateUserContracts)
 
 
 @ui.page('/show-services-trackings')
