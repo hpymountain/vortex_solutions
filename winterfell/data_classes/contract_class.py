@@ -1,4 +1,4 @@
-from database_object import DatabaseObject
+from winterfell.data_classes.database_object import DatabaseObject
 from tokeo.ext.appshare import app
 
 class Contract(DatabaseObject):

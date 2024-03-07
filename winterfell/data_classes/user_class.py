@@ -1,6 +1,6 @@
 from tokeo.ext.appshare import app
-from database_object import DatabaseObject
-from contract_class import Contract, get_all_contracts_in_db
+from winterfell.data_classes.database_object import DatabaseObject
+from winterfell.data_classes.contract_class import Contract, get_all_contracts_in_db
 
 
 class User(DatabaseObject):
