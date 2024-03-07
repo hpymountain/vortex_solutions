@@ -7,13 +7,9 @@ from winterfell.data_classes.contract_class import Contract, get_all_contracts_i
 ui = app.nicegui.ui
 ux = app.nicegui.ux
 
-
 @app.nicegui.fastapi_app.get('/api')
 async def get_api():
     return {'msg': 'json api result'}
-
-
-
 
 def getRows(user):
     if(user is None):
@@ -38,21 +34,27 @@ def show_users():
         {'name': 'address', 'label': 'address', 'field': 'address', 'sortable': True},
         {'name': 'zipcode', 'label': 'zipcode', 'field': 'zipcode', 'sortable': True},
         {'name': 'city', 'label': 'city', 'field': 'city', 'sortable': True},
-        {'name': 'email', 'label': 'email', 'field': 'email', 'sortable': True},
+        {'name': 'email', 'label': 'email', 'field': 'email', 'sortable': True}
     ]
     
     row = []
+
+    def generate_user_buttons():
+        with ui.column():
+            ui.button('Delete User', on_click=lambda: accountObjects.get(user_selection.value).delete_in_db())        
+            ui.button('Print Invoice', on_click=lambda: ui.navigate.to(f'/invoice/{user_selection.value}', new_tab=True))
+            ui.button('Edit User', on_click=lambda: ui.navigate.to('/edit-user', new_tab=True))
+
 
     with ui.splitter() as splitter:
         with splitter.before:
             with ui.row():
                 user_selection = ui.select(options=accounts, with_input=True)
                 ok_button = ui.button('OK')
-            ui.button('Delete User', on_click=lambda: accountObjects.get(user_selection.value).delete_in_db())        
-            ui.button('Print Invoice', on_click=lambda: ui.navigate.to(f'/invoice/{user_selection.value}', new_tab=True))
-            ui.button('Edit User', on_click=lambda: ui.navigate.to('/edit-user', new_tab=True))
+            ok_button.on('click', generate_user_buttons)
+            ui.separator()
             ui.button('Delete Contract', on_click=lambda: ui.navigate.to('/delete-contract', new_tab=True))
-            ui.button('Add Contract', on_click=lambda: ui.navigate.to('/add-contract', new_tab=True))
+            ui.button('Add Contract', on_click=lambda: ui.notify("This function is not implemented yet :("))
             ui.button('Add User', on_click=lambda: ui.navigate.to('/add-user', new_tab=True))
 
         with splitter.after:
@@ -91,6 +93,7 @@ def edit_user_layout():
         selected_user.city = city.value if city.value != "" else selected_user.city
         selected_user.email = email.value if email.value != "" else selected_user.email
         selected_user.update_in_db()
+        ui.notify("User eddited!")
 
     ui.button('OK', on_click = edit_user)
 
@@ -113,6 +116,7 @@ def add_user_layout():
         user.city = city.value
         user.email = email.value
         user.create_in_db()
+        ui.notify("User added!")
 
     ui.button('OK', on_click = add_user)
 
@@ -129,9 +133,9 @@ def delete_contract():
 
     user_selection = ui.select(options=accounts, with_input=True)
 
-    def delete_contract(object):
-        selected_contract = contractObjects.get(object)
-        selected_contract.delete_in_db()
+    def delete_contract(id):
+        selected_contract = contractObjects.get(id)
+        selected_contract.delete_in_db() if selected_contract is not None else ui.notify("Could not delete contract!")
 
     def generateUserContracts():
         selected_user = accountObjects.get(user_selection.value)
@@ -141,7 +145,7 @@ def delete_contract():
             user_contracts.append(contract)
         contract_selection = ui.select(options=user_contracts, with_input=True)
 
-        ui.button('OK', on_click = delete_contract(contract_selection))
+        ui.button('OK', on_click = delete_contract(contract_selection.value))
 
     ui.button('Submit User', on_click = generateUserContracts)
 
