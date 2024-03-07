@@ -31,6 +31,21 @@ class Contract(DatabaseObject):
         self.read_from_query_object(app.db.get_one('contracts', key))
         return self
     
+    def create_in_db(self):
+        col_dict = {
+            'customer': self.customer,
+            'subscription': self.subscription,
+            'basic_fee': self.basic_fee,
+            'minutes_included': self.minutes_included,
+            'price_per_extra_minute': self.price_per_extra_minute,
+            'data_volume': self.data_volume,
+            'imsi': self.imsi,
+            'terminal_type': self.terminal_type,
+            'additional_data_booked': self.additional_data_booked
+            }
+        app.db.create('contracts', col_dict)
+        return self
+    
     def update_in_db(self, col_list: list[str]=None):
         col_dict = {
             'customer': self.customer,
@@ -40,7 +55,8 @@ class Contract(DatabaseObject):
             'price_per_extra_minute': self.price_per_extra_minute,
             'data_volume': self.data_volume,
             'imsi': self.imsi,
-            'terminal_type': self.terminal_type
+            'terminal_type': self.terminal_type,
+            'additional_data_booked': self.additional_data_booked
             }
         if col_list is not None:
             col_dict_new = dict(col_dict)
