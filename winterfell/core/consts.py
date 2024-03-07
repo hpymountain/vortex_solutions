@@ -5,27 +5,27 @@ SUBSCRIPTIONS = dict(
 )
 
 RAN_TYPES = {
-  '2g': '2G (GSM)',
-  '3g': '3G (HSPA)',
-  '4g': '4G (LTE)',
+  '2g': dict(desc='2G (GSM)', max_throughput_desc='Weak Connection', kbyte_sec=0),
+  '3g': dict(desc='3G (HSPA)', max_throughput_desc='20 Mbit/s', kbyte_sec=20*1000/8),
+  '4g': dict(desc='4G (LTE)', max_throughput_desc='300 Mbit/s', kbyte_sec=300*1000/8),
 }
 
-TERMINALS = dict(
-  phair_phone='PhairPhone',
-  pear_aphone_4s='Pear aphone 4s',
-  samsung_s42plus='Samsung S42plus',
+TERMINAL_TYPES = dict(
+  phair_phone=dict(desc='PhairPhone', max_ran_type_idx=1),
+  pear_aphone_4s=dict(desc='Pear aphone 4s', max_ran_type_idx=1),
+  samsung_s42plus=dict(desc='Samsung S42plus', max_ran_type_idx=2),
 )
 
-SIGNAL_QUALITY = {
-  '0.5': '50%',
-  '0.25': '25%',
-  '0.1': '10%',
-  '0': '0%',
+SIGNAL_QUALITIES = {
+  0.5: '50%',
+  0.25: '25%',
+  0.1: '10%',
+  0: '0%',
 }
 
-# NEEDED?
-MAXIMUM_THROUGHPUT = {
-  '0mbit/s': 'Weak Connection',
-  '20mbit/s': '20 Mbit/s',
-  '300mbit/s': '300 Mbit/s',
-}
+SERVICE_TYPES = dict(
+    call=dict(desc='Voice call', min_throughput_kbytes_per_sec=0),
+    browse=dict(desc='Browsing', min_throughput_kbytes_per_sec=2*1000/8),
+    download=dict(desc='Download', min_throughput_kbytes_per_sec=10*1000/8),
+    video=dict(desc='Video', min_throughput_kbytes_per_sec=75*1000/8),
+)
