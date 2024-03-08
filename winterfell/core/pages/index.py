@@ -139,7 +139,7 @@ def delete_contract():
     ui.label('Delete a contract!').classes('text-2xl m-2')
 
     accountObjects: dict[str, User] = read_user_list_from_db()
-    contractObjects: dict[str, Contract] = read_user_list_from_db()
+    contractObjects: dict[str, Contract] = get_all_contracts_in_db()
 
     accounts = list()
     for account in accountObjects.keys():
