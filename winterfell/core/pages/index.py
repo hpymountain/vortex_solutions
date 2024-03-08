@@ -54,7 +54,8 @@ def show_users():
             ok_button.on('click', generate_user_buttons)
             ui.separator()
             ui.button('Delete Contract', on_click=lambda: ui.navigate.to('/delete-contract', new_tab=True))
-            ui.button('Add Contract', on_click=lambda: ui.notify("This function is not implemented yet :("))
+            #ui.button('Add Contract', on_click=lambda: ui.notify("This function is not implemented yet :("))
+            ui.button('Add Contract', on_click=lambda: ui.navigate.to('/add-contract', new_tab=True))
             ui.button('Add User', on_click=lambda: ui.navigate.to('/add-user', new_tab=True))
 
         with splitter.after:
@@ -162,6 +163,51 @@ def delete_contract():
 
     ui.button('Submit User', on_click = generateUserContracts)
 
+@ui.page('/add-contract')
+def add_contract_layout():
+    ui.label('Add a Contract!').classes('text-2xl m-2')
+
+    accountObjects: dict[str, User] = read_user_list_from_db()
+
+    accounts = list()
+    for account in accountObjects.keys():
+        accounts.append(account)
+
+    subscriptions = [
+        'Green Mobile L', 'Green Mobile S', 'Green Mobile M'
+    ]
+
+    user_selection= ui.select(options=accounts, with_input=True)
+
+    def create_contract(subscription, user):
+        contract = Contract()
+        if(subscription == 'Green Mobile S'):
+            contract.basic_fee = 8
+            contract.minutes_included = 0
+            contract.price_per_extra_minute = 0.08
+            contract.data_volume = 500000
+        elif(subscription == 'Green Mobile M'):
+            contract.basic_fee = 22
+            contract.minutes_included = 100
+            contract.price_per_extra_minute = 0.06
+            contract.data_volume = 2000000
+        elif(subscription == 'Green Mobile L'):
+            contract.basic_fee = 42
+            contract.minutes_included = 150
+            contract.price_per_extra_minute = 0.04
+            contract.data_volume = 5000000
+
+        # contract.create_in_db()
+        # user.contracts.update({id: contract})
+        ui.notify("Contract cannot be created yet!")
+
+    def add_contract():
+        selected_user = accountObjects.get(user_selection.value)
+        subscription_selection = ui.select(options=list(subscriptions), with_input=True)
+        ui.button('Submit Subscription', on_click=create_contract(subscription_selection.value, selected_user))
+
+    ui.button('Submit User', on_click=add_contract)
+
 
 @ui.page('/show-services-trackings')
 def show_users():
@@ -243,5 +289,3 @@ def default():
             with ux.div().classes('col-3'):
                 (ui.button('Send all invoices', on_click=lambda: ui.navigate.to('/show-customers-and-contracts'))
                  .classes('text-black bg-blue hover:bg-gray-100 py-2 px-4 border border-gray-400 rounded shadow'))
-
-# left over from prev version: ui.link('Übersicht Justus', '/show-justus')
