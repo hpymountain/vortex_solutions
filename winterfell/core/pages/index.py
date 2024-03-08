@@ -106,8 +106,9 @@ def edit_user_layout():
             city.set_value(selected_user.city)
             email.set_value(selected_user.email)
         
-    load_user_button.on('click', load_user)
-    ui.button('OK', on_click = edit_user)
+    button_ok = ui.button('OK', on_click = edit_user)
+    button_ok.disable()
+    load_user_button.on('click', lambda: (load_user(), button_ok.enable()))
 
 @ui.page('/add-user')
 def add_user_layout():
