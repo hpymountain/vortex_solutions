@@ -219,9 +219,28 @@ def show_customers_and_contracts():
 
 
 def default():
-    ux.h1('This is the homepage!').classes('text-2xl m-2')
-    ui.link('Übersicht der User', '/show-users')
-    ui.link('Übersicht Tracked Services', '/show-services-trackings')
-    ui.link('Übersicht Justus', '/show-justus')
-    ui.link('Erstelle Rechnungen', '/show-customers-and-contracts')
+    with ux.div().classes('container').style('text-align:center'):  # style('background:white;text-color:white'):
+        with ux.div().classes('row'):
+            ux.div().classes('col-5')
+            with ux.div().classes('col-3'):
+                # Careful! Only finds the png when launching from project folder! Do not start from 'winterfell'.
+                ui.image('./winterfell/core/pages/MatseCom.png').classes('w-64')
+                ux.h1("Subscriber-Manager").classes('text-2xl m-2')
+            ux.div().classes('col-3')
 
+        with ux.div().classes('row'):
+            ui.html('<br><br><br>')
+
+        with ux.div().classes('row'):
+            ux.div().classes('col-2')
+            with ux.div().classes('col-3'):
+                (ui.button('Subscriber Info', on_click=lambda: ui.navigate.to('/show-users'))
+                .classes('text-black bg-light-green hover:bg-gray-100 py-2 px-4 border border-gray-400 rounded shadow'))
+            with ux.div().classes('col-3'):
+                (ui.button('Simulate Session', on_click=lambda: ui.navigate.to('/show-services-trackings'))
+                 .classes('text-black bg-green hover:bg-gray-100 py-2 px-4 border border-gray-400 rounded shadow'))
+            with ux.div().classes('col-3'):
+                (ui.button('Send all invoices', on_click=lambda: ui.navigate.to('/show-customers-and-contracts'))
+                 .classes('text-black bg-blue hover:bg-gray-100 py-2 px-4 border border-gray-400 rounded shadow'))
+
+# left over from prev version: ui.link('Übersicht Justus', '/show-justus')
