@@ -220,19 +220,19 @@ def show_customers_and_contracts():
 
 
 def default():
-    with ux.div().classes('container').style('text-align:center'):  # style('background:white;text-color:white'):
-        with ux.div().classes('row'):
-            ux.div().classes('col-5')
-            with ux.div().classes('col-3'):
-                # Careful! Only finds the png when launching from project folder! Do not start from 'winterfell'.
-                ui.image('./winterfell/core/pages/MatseCom.png').classes('w-64')
-                ux.h1("Subscriber-Manager").classes('text-2xl m-2')
-            ux.div().classes('col-3')
-
-        with ux.div().classes('row'):
-            ui.html('<br><br><br>')
-
-        with ux.div().classes('row'):
+    with ux.div().classes('container mx-auto p-8 bg-gray-100 h-screen flex flex-col justify-center items-center'):
+        with ux.div().classes('text-white p-4 mb-8 text-center'):
+            ux.h1('Welcome to Vortex Company').classes('text-6xl font-extrabold tracking-wide leading-tight text-black')
+            ux.div().classes('border-b-2 border-gray-300 w-full mb-8')
+        # Buttons Section
+        with ux.div().classes('grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'):
+            button_styles = 'bg-blue-700 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline-blue'
+            # Overview of Tracked Services Button
+            ui.button('Overview of Tracked Services', on_click=lambda: ui.navigate.to('/show-services-trackings', new_tab=True)).classes(button_styles)
+            # Userbase Button
+            ui.button('Userbase', on_click=lambda: ui.navigate.to('/show-users', new_tab=True)).classes(button_styles)
+            # Create Invoice Button
+            ui.button('Create Invoice', on_click=lambda: ui.navigate.to('/show-customers-and-contracts', new_tab=True)).classes(button_styles)
             ux.div().classes('col-2')
             with ux.div().classes('col-3'):
                 (ui.button('Subscriber Info', on_click=lambda: ui.navigate.to('/show-users'))
