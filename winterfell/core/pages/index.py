@@ -76,6 +76,7 @@ def edit_user_layout():
         accounts.append(account)
 
     user_selection = ui.select(options=accounts, with_input=True)
+    load_user_button = ui.button('Load User')
 
     surname = ui.input('Surname')
     forename = ui.input('Forename')
@@ -95,6 +96,17 @@ def edit_user_layout():
         selected_user.update_in_db()
         ui.notify("User eddited!")
 
+    def load_user():
+        selected_user = accountObjects.get(user_selection.value)
+        if selected_user is not None:
+            surname.set_value(selected_user.surname)
+            forename.set_value(selected_user.forename)
+            address.set_value(selected_user.address)
+            zipcode.set_value(selected_user.zipcode)
+            city.set_value(selected_user.city)
+            email.set_value(selected_user.email)
+        
+    load_user_button.on('click', load_user)
     ui.button('OK', on_click = edit_user)
 
 @ui.page('/add-user')
